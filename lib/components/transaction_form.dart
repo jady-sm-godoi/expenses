@@ -8,6 +8,17 @@ class TransactionForm extends StatelessWidget {
 
   TransactionForm({required this.onsubmit, super.key});
 
+  void _submitForm(){
+    final title = titleController.text;
+    final value = double.tryParse(valueController.text) ?? 0.0;
+
+    if(title.isEmpty || value <= 0){
+      return;
+    }
+
+    onsubmit(title, value);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -18,6 +29,7 @@ class TransactionForm extends StatelessWidget {
                 children: [
                   TextField(
                     controller: titleController,
+                    onSubmitted: (_) => _submitForm(),
                     decoration: const InputDecoration(
                       labelText: 'Título',
                     ),
@@ -28,6 +40,8 @@ class TransactionForm extends StatelessWidget {
                     controller: Controla o texto inserido no campo.
                     decoration: Adiciona um rótulo ao campo de entrada. */
                     controller: valueController,
+                    keyboardType: TextInputType.numberWithOptions(decimal: true),
+                    onSubmitted: (_) => _submitForm(),
                     decoration: const InputDecoration(
                       labelText: 'Valor (R\$)',
                     ),
@@ -41,10 +55,7 @@ class TransactionForm extends StatelessWidget {
                           onPressed: Define a ação ao clicar no botão.
                           style: Personaliza o estilo do botão, como cor de fundo e preenchimento.
                           child: Define o texto exibido no botão. */
-                        onPressed: () => onsubmit(
-                          titleController.text, 
-                          double.tryParse(valueController.text) ?? 0.0
-                          ),
+                        onPressed: _submitForm,
                         style: TextButton.styleFrom(
                           foregroundColor: Colors.purple,
                           backgroundColor: Colors.purple.shade100,
