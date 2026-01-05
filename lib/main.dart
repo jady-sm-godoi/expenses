@@ -16,7 +16,7 @@ class ExpensesApp extends StatelessWidget {
 class MyHomePage extends StatelessWidget {
   MyHomePage({super.key});
 
-  final List<Transaction> transactions = [
+  final List<Transaction> _transactions = [
     Transaction(
       id: 't1',
       title: 'Café',
@@ -64,9 +64,51 @@ class MyHomePage extends StatelessWidget {
             elevation: 5,
             child: Text('Grafico'),
           ),
-          Card(
-            elevation: 5,
-            child: Text('Lista de Transações'),
+          Column(
+            children: _transactions.map((tr) {
+                return Card(
+                  child: Row(
+                    children: [
+                      Container(
+                        margin: const EdgeInsets.symmetric(
+                          horizontal: 15,
+                          vertical: 10,
+                        ),
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: const Color.fromARGB(255, 162, 90, 175),
+                            width: 2,
+                          ),
+                        ),
+                        padding: const EdgeInsets.all(10),
+                        child: Text(tr.value.toStringAsFixed(2),
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20,
+                            color: Colors.purple,
+                          ),
+                        ),
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(tr.title,
+                            style: const TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          Text(tr.date.toString(),
+                            style: const TextStyle(
+                              color: Color.fromARGB(255, 104, 104, 104),
+                            ),
+                          ),
+                        ],
+                      )
+                    ],
+                  )
+                );
+              }).toList(),
           ),
         ],
       )
