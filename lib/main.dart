@@ -9,11 +9,39 @@ import 'package:flutter/material.dart';
 void main() => runApp(ExpensesApp());
 
 class ExpensesApp extends StatelessWidget {
-  const ExpensesApp({super.key});
+  ExpensesApp({super.key});
+  final ThemeData theme = ThemeData();
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(home: MyHomePage(),);
+    return MaterialApp(
+      home: MyHomePage(),
+      theme: ThemeData(
+        useMaterial3: false,
+        textTheme: theme.textTheme.copyWith(
+          titleLarge: const TextStyle(
+            fontFamily: 'OpenSans',
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        appBarTheme: AppBarTheme(
+          backgroundColor: Colors.purple,
+          foregroundColor: Colors.white,
+          titleTextStyle: TextStyle(
+              fontFamily: 'OpenSans',
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
+        ),
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: Colors.amber, 
+          primary: Colors.purple, 
+          secondary: Colors.amber,
+        ),
+        fontFamily: 'Quicksand', 
+      ),
+    );
   }
 }
 
@@ -58,6 +86,8 @@ class _MyHomePageState extends State<MyHomePage> {
       setState(() {
         _transactions.add(newTransaction);
       });
+
+      Navigator.of(context).pop();
   }
   
   void _openTransactionFormModal(BuildContext context){
@@ -93,7 +123,7 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.purple,
+        backgroundColor: Theme.of(context).colorScheme.secondary,
         onPressed: () => _openTransactionFormModal(context), 
         child:  Icon(Icons.add, color: Colors.white,),
       ),
